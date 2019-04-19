@@ -1,0 +1,11 @@
+{
+  "name": "cognito-userpool-handlers",
+  "version": "1.0.0",
+  "description": "Handles events from a Cognito User Pool",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "cd ./src && zip -rp ../dist.zip ."
+  },
+  "author": "Inventive Group",
+  "private": true
+}

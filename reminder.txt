@@ -1,0 +1,15 @@
+Finish the configuration
+
+## Configure Environments
+
+- Set the variables for each environment:
+  - variables-dev.tfvars
+  - variables-demo.tfvars
+  - variables-staging.tfvars
+  - variables-prod.tfvars
+- Initialize the Terraform backend in S3
+  - `terraform init`
+- Create the Terraform workspaces (dev uses the default workspace)
+  - `terraform workspace new demo`
+  - `terraform workspace new staging`
+  - `terraform workspace new prod`
