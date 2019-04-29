@@ -139,6 +139,23 @@ resource "aws_cognito_user_pool_client" "_" {
   ]
 }
 
+# aws_cognito_user_pool_client._
+resource "aws_cognito_user_pool_client" "api" {
+  name = "${var.namespace}_${var.stage}_api"
+
+  user_pool_id    = "${aws_cognito_user_pool._.id}"
+  generate_secret = false
+
+  explicit_auth_flows = [
+    "ADMIN_NO_SRP_AUTH",
+    "USER_PASSWORD_AUTH",
+  ]
+
+  supported_identity_providers = [
+    "COGNITO"
+  ]
+}
+
 # aws_cognito_identity_pool._
 resource "aws_cognito_identity_pool" "_" {
   identity_pool_name      = "${var.cognito_identity_pool_name}"

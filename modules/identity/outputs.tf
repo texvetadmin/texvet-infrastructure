@@ -17,6 +17,11 @@ output "cognito_user_pool_client_id" {
   value = "${aws_cognito_user_pool_client._.id}"
 }
 
+# output.cognito_user_pool_client_api_id
+output "cognito_user_pool_client_api_id" {
+  value = "${aws_cognito_user_pool_client.api.id}"
+}
+
 # output.cognito_identity_pool_id
 output "cognito_identity_pool_id" {
   value = "${aws_cognito_identity_pool._.id}"

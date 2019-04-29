@@ -36,6 +36,11 @@ output "cognito_user_pool_client_id" {
   value = "${module.identity.cognito_user_pool_client_id}"
 }
 
+# output.cognito_user_pool_client_api_id
+output "cognito_user_pool_client_api_id" {
+  value = "${module.identity.cognito_user_pool_client_api_id}"
+}
+
 # output.cognito_identity_pool_id
 output "cognito_identity_pool_id" {
   value = "${module.identity.cognito_identity_pool_id}"
