@@ -41,3 +41,10 @@ module "identity" {
   cognito_signup_sms             = "${var.cognito_signup_sms}"
   cognito_email_replyto          = "${var.cognito_email_replyto}"
 }
+
+# module.web
+module "web" {
+  source = "./modules/web"
+
+  region          = "${var.region}"
+}

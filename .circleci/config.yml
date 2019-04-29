@@ -1,0 +1,109 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.10
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run: unzip ./resources/terraform_0.11.10_linux_amd64.zip
+      - run: chmod u+x terraform
+        
+  deploy-develop:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: unzip ./resources/terraform_0.11.10_linux_amd64.zip
+      - run: chmod u+x terraform
+      - run: ./terraform init -input=false
+      - run: ./terraform workspace select development
+      - run: ./terraform apply -var-file=variables-development.tfvars -input=false -auto-approve
+
+  deploy-staging:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: unzip ./resources/terraform_0.11.10_linux_amd64.zip
+      - run: chmod u+x terraform
+      - run: ./terraform init -input=false
+      - run: ./terraform workspace select staging
+      - run: ./terraform apply -var-file=variables-staging.tfvars -input=false -auto-approve
+
+  deploy-demo:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: unzip ./resources/terraform_0.11.10_linux_amd64.zip
+      - run: chmod u+x terraform
+      - run: ./terraform init -input=false
+      - run: ./terraform workspace select demo
+      - run: ./terraform apply -var-file=variables-demo.tfvars -input=false -auto-approve
+
+  deploy-prod:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: unzip ./resources/terraform_0.11.10_linux_amd64.zip
+      - run: chmod u+x terraform
+      - run: ./terraform init -input=false
+      - run: ./terraform workspace select production
+      - run: ./terraform apply -var-file=variables-production.tfvars -input=false -auto-approve
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy-develop:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - deploy-staging:
+          requires:
+            - deploy-develop
+          filters:
+            branches:
+              only: master
+      - demo-gate:
+          type:
+            approval
+          requires:
+            - deploy-staging
+      - deploy-demo:
+          requires:
+            - demo-gate
+          filters:
+            branches:
+              only: master
+      - prod-gate:
+          type:
+            approval
+          requires:
+            - deploy-staging
+      - deploy-prod:
+          requires:
+            - prod-gate
+          filters:
+            branches:
+              only: master

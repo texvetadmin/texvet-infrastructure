@@ -50,12 +50,3 @@ variable "cognito_signup_sms" {
 variable "cognito_email_replyto" {
   description = "The reply to email address for the signup emails"
 }
-
-# -----------------------------------------------------------------------------
-# Variables: Cloudfront
-# -----------------------------------------------------------------------------
-
-# var.tls_cert_arn
-variable "tls_cert_arn" {
-  description = "The ARN of the TLS/SSL certification manually provisioned and approved"
-}
