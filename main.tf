@@ -48,3 +48,12 @@ module "web" {
 
   region          = "${var.region}"
 }
+
+# module.queue
+module "queue" {
+  source = "./modules/queue"
+
+  namespace = "${var.namespace}"
+  region    = "${var.region}"
+  stage     = "${var.stage}"
+}
